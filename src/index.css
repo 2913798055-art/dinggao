@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #00A3FF;
+  --color-secondary: #7000FF;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900;
+  }
+}
+
+@layer components {
+  .tech-card {
+    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-sm rounded-2xl transition-all duration-300;
+  }
+  
+  .tech-card:hover {
+    @apply shadow-xl shadow-primary/5 border-primary/20 -translate-y-1;
+  }
+
+  .glow-text {
+    text-shadow: 0 0 20px rgba(0, 163, 255, 0.3);
+  }
+
+  .glass-nav {
+    @apply sticky top-0 z-50 bg-white/70 backdrop-blur-lg border-b border-white/30;
+  }
+}
+
+@keyframes led-pulse {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.2); }
+}
+
+.animate-led {
+  animation: led-pulse 3s infinite ease-in-out;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 rounded-full hover:bg-slate-400;
+}
