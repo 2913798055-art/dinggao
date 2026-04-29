@@ -40,7 +40,7 @@ const translations = {
     aboutTitle: "为什么选择视励安？",
     aboutDesc: "我们专注于LED光电技术的研发与应用，不仅提供硬件，更提供完整的视觉艺术表达。从概念设计到落地执行，视励安是您最值得信赖的伙伴。",
     contactTitle: "联系我们",
-    address: "广州市番禺区XX街道XX大厦",
+    address: "广州市番禺区东环街道骏盈大厦2栋319-321",
     phone: "135-xxxx-xxxx",
     email: "contact@shilian.com",
     rights: "© 2024 视励安电子. 保留所有权利。"
@@ -63,7 +63,7 @@ const translations = {
     aboutTitle: "Why Choose Shilian?",
     aboutDesc: "We focus on R&D and application of LED optoelectronic technology, providing not just hardware, but complete visual artistic expression. From conceptual design to execution.",
     contactTitle: "Contact Us",
-    address: "XX District, Guangzhou, Guangdong, China",
+    address: "319-321, Building 2, Junying Building, Donghuan Street, Panyu District, Guangzhou",
     phone: "+86 135-xxxx-xxxx",
     email: "contact@shilian.com",
     rights: "© 2024 Shilian Electronics. All Rights Reserved."
@@ -103,16 +103,25 @@ export default function App() {
     <div className="min-h-screen font-sans selection:bg-primary selection:text-white">
       {/* Navigation */}
       <nav className="glass-nav px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white shadow-lg shadow-primary/20">
-            <Monitor size={24} />
+        <div className="flex items-center gap-4">
+          <img 
+            src="/src/123.png" 
+            alt="Shilian Logo" 
+            className="h-14 w-auto object-contain"
+            referrerPolicy="no-referrer"
+            onError={(e) => {
+              // Fallback if logo is not found
+              (e.target as HTMLImageElement).src = "/input_file_1.png";
+            }}
+          />
+          <div className="flex flex-col">
+            <span className="text-xl font-black tracking-tighter leading-none">
+              {t.company}
+            </span>
+            <span className="text-[10px] font-bold text-primary tracking-[0.2em] uppercase opacity-80">
+              Technology & Vision
+            </span>
           </div>
-          <span className="text-xl font-bold tracking-tight hidden sm:block">
-            {t.company}
-          </span>
-          <span className="text-xl font-bold tracking-tight sm:hidden">
-            视励安 | Shilian
-          </span>
         </div>
 
         <div className="hidden md:flex items-center gap-8 text-sm font-medium">
@@ -399,11 +408,26 @@ export default function App() {
           <ChevronRight className="-rotate-90" size={24} />
         </button>
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-16 mb-20">
-            <div className="col-span-1 md:col-span-1">
-              <div className="flex items-center gap-3 mb-8">
-                <Monitor className="text-primary" />
-                <span className="text-2xl font-black">{lang === 'zh' ? '视励安电子' : 'Shilian Electronics'}</span>
+          <div className="grid md:grid-cols-2 gap-16 mb-20">
+            <div className="col-span-1">
+              <div className="flex items-center gap-4 mb-8">
+                <img 
+                  src="/src/123.png" 
+                  alt="Shilian Electronics Logo" 
+                  className="h-14 w-auto object-contain"
+                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = "/input_file_1.png";
+                  }}
+                />
+                <div className="flex flex-col text-white">
+                  <span className="text-xl font-black tracking-tighter leading-none">
+                    {t.company}
+                  </span>
+                  <span className="text-[10px] font-bold text-primary tracking-[0.2em] uppercase opacity-80">
+                    Technology & Vision
+                  </span>
+                </div>
               </div>
               <p className="text-slate-400 leading-relaxed mb-6">
                 Professional LED visual solutions for the next generation of entertainment.
@@ -433,17 +457,6 @@ export default function App() {
                   <Mail className="text-primary shrink-0" size={20} />
                   <span className="text-slate-400">{t.email}</span>
                 </div>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="text-lg font-bold mb-8">Certifications</h4>
-              <div className="grid grid-cols-2 gap-4">
-                {['ISO9001', 'CE Certified', 'FCC Compliant', 'RoHS'].map(cert => (
-                  <div key={cert} className="px-4 py-2 border border-slate-800 rounded-lg text-xs font-bold text-slate-500 uppercase tracking-widest text-center">
-                    {cert}
-                  </div>
-                ))}
               </div>
             </div>
           </div>
