@@ -73,19 +73,25 @@ const translations = {
 export default function App() {
   const [lang, setLang] = useState<'zh' | 'en'>('zh');
   const [activeTab, setActiveTab] = useState<'all' | 'bar' | 'ktv'>('all');
+  const [provinceFilter, setProvinceFilter] = useState('all');
   const [search, setSearch] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const t = translations[lang];
 
+  const provinces = useMemo(() => {
+    return Array.from(new Set(projects.map(p => p.province).filter(Boolean))).sort();
+  }, []);
+
   const filteredProjects = useMemo(() => {
     return projects.filter(p => {
       const matchCategory = activeTab === 'all' || p.category === activeTab;
+      const matchProvince = provinceFilter === 'all' || p.province === provinceFilter;
       const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) || 
                           (p.region && p.region.toLowerCase().includes(search.toLowerCase()));
-      return matchCategory && matchSearch;
+      return matchCategory && matchProvince && matchSearch;
     });
-  }, [activeTab, search]);
+  }, [activeTab, provinceFilter, search]);
 
   const switchLang = () => setLang(prev => prev === 'zh' ? 'en' : 'zh');
 
@@ -215,7 +221,17 @@ export default function App() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
             <div>
               <h2 className="text-4xl font-black mb-4 tracking-tight">{t.navProjects}</h2>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-3">
+                <select 
+                  value={provinceFilter}
+                  onChange={(e) => setProvinceFilter(e.target.value)}
+                  className="px-4 py-2 bg-slate-100 border-none rounded-full text-sm font-bold focus:ring-2 focus:ring-primary/20"
+                >
+                  <option value="all">{lang === 'zh' ? '所有省级地区' : 'All Provinces'}</option>
+                  {provinces.map(p => (
+                    <option key={p} value={p}>{p}</option>
+                  ))}
+                </select>
                 {(['all', 'bar', 'ktv'] as const).map(cat => (
                   <button
                     key={cat}
@@ -283,7 +299,7 @@ export default function App() {
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
                        <span className="text-white text-xs font-bold flex items-center gap-1">
-                          <Play size={12} fill="currentColor" /> {t.watchVideo}
+                          <Zap size={12} fill="currentColor" /> {lang === 'zh' ? '经典案例' : 'Classic Case'}
                        </span>
                     </div>
                   </div>
@@ -321,50 +337,55 @@ export default function App() {
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
-          <div>
-            <span className="text-primary font-black uppercase tracking-widest text-sm mb-4 block">About Us</span>
-            <h2 className="text-4xl font-black mb-8 tracking-tight">{t.aboutTitle}</h2>
-            <p className="text-lg text-slate-600 leading-relaxed mb-8">
-              {t.aboutDesc}
+      {/* Projects Wall / About Section */}
+      <section id="about" className="py-24 bg-slate-50 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <span className="text-primary font-black uppercase tracking-widest text-sm mb-4 block">Proven Experience</span>
+            <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight">
+              {lang === 'zh' ? '全案工程案例一览' : 'Complete Project Portfolio'}
+            </h2>
+            <div className="w-24 h-1.5 bg-primary mx-auto rounded-full mb-8" />
+            <p className="text-lg text-slate-500 max-w-3xl mx-auto">
+              {lang === 'zh' 
+                ? '多年深耕娱乐行业，我们已在全国乃至东南亚落地上百个顶尖工程项目。' 
+                : 'With years of expertise in the entertainment industry, we have successfully delivered hundreds of top-tier projects worldwide.'}
             </p>
-            <div className="space-y-6">
-              {[
-                { title: "Advanced Technology", desc: "Leading the industry with high-refresh Rate, HDR mapping, and 4K processing.", icon: <Monitor className="text-primary" /> },
-                { title: "Creative Integration", desc: "Our team collaborates with world-class lighting designers for seamless visual effects.", icon: <Lightbulb className="text-primary" /> }
-              ].map((item, i) => (
-                <div key={i} className="flex gap-4">
-                  <div className="shrink-0 w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center border border-slate-100">
-                    {item.icon}
-                  </div>
-                  <div>
-                    <h4 className="font-bold mb-1">{item.title}</h4>
-                    <p className="text-sm text-slate-500">{item.desc}</p>
-                  </div>
-                </div>
+          </div>
+
+          <div className="relative group">
+            <div className="columns-2 sm:columns-3 md:columns-4 lg:columns-5 gap-4 space-y-3 opacity-90 group-hover:opacity-100 transition-opacity">
+              {projects.map((project, idx) => (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: idx * 0.005, duration: 0.3 }}
+                  viewport={{ once: true }}
+                  className="break-inside-avoid flex items-center gap-2 px-3 py-2 bg-white rounded-lg border border-slate-100 text-[11px] md:text-xs font-bold text-slate-600 shadow-xs hover:border-primary/50 hover:text-primary hover:shadow-lg hover:shadow-primary/5 transition-all cursor-default"
+                >
+                  <div className="w-1 h-1 bg-primary/40 rounded-full" />
+                  <span className="truncate">{project.name}</span>
+                </motion.div>
               ))}
             </div>
+            {/* Visual indicators for wall richness */}
+            <div className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-slate-50 to-transparent z-10 pointer-events-none" />
+            <div className="absolute bottom-0 inset-x-0 h-20 bg-gradient-to-t from-slate-50 to-transparent z-10 pointer-events-none" />
           </div>
-          <div className="relative">
-            <div className="aspect-square bg-white rounded-3xl overflow-hidden shadow-2xl p-4">
-               {/* Simplified LED Mockup Visual */}
-               <div className="w-full h-full bg-slate-900 rounded-2xl relative overflow-hidden flex flex-col items-center justify-center p-8 text-center text-white">
-                  <div className="absolute inset-0 opacity-20">
-                    <div className="absolute top-0 left-0 w-full h-full grid grid-cols-20 grid-rows-20 gap-1">
-                      {Array.from({ length: 400 }).map((_, i) => (
-                        <div key={i} className="w-1 h-1 bg-primary rounded-full animate-led" style={{ animationDelay: `${i * 10}ms` }} />
-                      ))}
-                    </div>
-                  </div>
-                  <Monitor size={80} className="mb-6 text-primary z-10" />
-                  <h3 className="text-2xl font-black mb-2 z-10">Smart LED Systems</h3>
-                  <p className="text-slate-400 z-10">Intelligent control & pixel-perfect precision.</p>
-               </div>
-            </div>
-            {/* Design accents */}
-            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-primary/20 blur-3xl -z-10" />
+
+          <div className="mt-20 grid grid-cols-1 md:grid-cols-4 gap-8">
+            {[
+              { label: lang === 'zh' ? '覆盖国家' : 'Countries', value: '5+' },
+              { label: lang === 'zh' ? '落地省份' : 'Provinces', value: '20+' },
+              { label: lang === 'zh' ? '娱乐品牌' : 'Brands', value: '50+' },
+              { label: lang === 'zh' ? '硬件标准' : 'Standard', value: 'ISO/CE' }
+            ].map((stat, i) => (
+              <div key={i} className="bg-white p-6 rounded-2xl border border-slate-100 text-center shadow-sm">
+                <div className="text-2xl font-black text-slate-900 mb-1">{stat.value}</div>
+                <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{stat.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
