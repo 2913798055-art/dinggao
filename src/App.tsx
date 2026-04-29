@@ -41,8 +41,8 @@ const translations = {
     aboutDesc: "我们专注于LED光电技术的研发与应用，不仅提供硬件，更提供完整的视觉艺术表达。从概念设计到落地执行，视励安是您最值得信赖的伙伴。",
     contactTitle: "联系我们",
     address: "广州市番禺区东环街道骏盈大厦2栋319-321",
-    phone: "135-xxxx-xxxx",
-    email: "contact@shilian.com",
+    phone: "王云：18820206662",
+    email: "2913798055@qq.com",
     rights: "© 2024 视励安电子. 保留所有权利。"
   },
   en: {
@@ -64,8 +64,8 @@ const translations = {
     aboutDesc: "We focus on R&D and application of LED optoelectronic technology, providing not just hardware, but complete visual artistic expression. From conceptual design to execution.",
     contactTitle: "Contact Us",
     address: "319-321, Building 2, Junying Building, Donghuan Street, Panyu District, Guangzhou",
-    phone: "+86 135-xxxx-xxxx",
-    email: "contact@shilian.com",
+    phone: "Wang Yun: +86 18820206662",
+    email: "2913798055@qq.com",
     rights: "© 2024 Shilian Electronics. All Rights Reserved."
   }
 };
@@ -117,9 +117,6 @@ export default function App() {
           <div className="flex flex-col">
             <span className="text-xl font-black tracking-tighter leading-none">
               {t.company}
-            </span>
-            <span className="text-[10px] font-bold text-primary tracking-[0.2em] uppercase opacity-80">
-              Technology & Vision
             </span>
           </div>
         </div>
@@ -212,7 +209,7 @@ export default function App() {
             {[
               { icon: <Zap className="text-amber-500" />, count: "200+", label: t.statProjects },
               { icon: <MapPin className="text-red-500" />, count: "50+", label: t.statCities },
-              { icon: <Users className="text-blue-500" />, count: lang === 'zh' ? "核心专家" : "Experts", label: t.statService }
+              { icon: <Users className="text-blue-500" />, count: lang === 'zh' ? "核心团队" : "Experts", label: t.statService }
             ].map((stat, i) => (
               <div key={i} className={`tech-card p-6 sm:p-10 text-center ${i === 2 ? 'sm:col-span-2 md:col-span-1' : ''}`}>
                 <div className="inline-flex p-3 bg-slate-50 rounded-xl mb-4">{stat.icon}</div>
@@ -423,9 +420,6 @@ export default function App() {
                 <div className="flex flex-col text-white">
                   <span className="text-xl font-black tracking-tighter leading-none">
                     {t.company}
-                  </span>
-                  <span className="text-[10px] font-bold text-primary tracking-[0.2em] uppercase opacity-80">
-                    Technology & Vision
                   </span>
                 </div>
               </div>
