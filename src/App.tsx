@@ -18,6 +18,7 @@ import {
   Play,
   ExternalLink
 } from 'lucide-react';
+import { BackgroundAnimation } from './components/BackgroundAnimation';
 import { projects, Project } from './data/projects';
 
 // Localization
@@ -100,20 +101,11 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen font-sans selection:bg-primary selection:text-white">
+    <div className="min-h-screen font-sans selection:bg-primary selection:text-white relative">
+      <BackgroundAnimation />
       {/* Navigation */}
       <nav className="glass-nav px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <img 
-            src="/src/123.png" 
-            alt="Shilian Logo" 
-            className="h-14 w-auto object-contain"
-            referrerPolicy="no-referrer"
-            onError={(e) => {
-              // Fallback if logo is not found
-              (e.target as HTMLImageElement).src = "/input_file_1.png";
-            }}
-          />
           <div className="flex flex-col">
             <span className="text-xl font-black tracking-tighter leading-none">
               {t.company}
@@ -164,11 +156,6 @@ export default function App() {
 
       {/* Hero Section */}
       <header className="relative pt-20 pb-32 px-6 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-full -z-10 opacity-30">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-primary/20 blur-[120px] rounded-full animate-pulse" />
-          <div className="absolute bottom-20 left-0 w-72 h-72 bg-secondary/20 blur-[100px] rounded-full" />
-        </div>
-
         <div className="max-w-5xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -222,7 +209,7 @@ export default function App() {
       </header>
 
       {/* Projects Section */}
-      <section id="projects" className="py-24 bg-white">
+      <section id="projects" className="py-24 bg-white/60 backdrop-blur-sm relative z-0">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
             <div>
@@ -344,7 +331,7 @@ export default function App() {
       </section>
 
       {/* Projects Wall / About Section */}
-      <section id="about" className="py-24 bg-slate-50 overflow-hidden">
+      <section id="about" className="py-24 bg-slate-50/60 backdrop-blur-sm relative z-0 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <span className="text-primary font-black uppercase tracking-widest text-sm mb-4 block">Proven Experience</span>
@@ -408,15 +395,6 @@ export default function App() {
           <div className="grid md:grid-cols-2 gap-16 mb-20">
             <div className="col-span-1">
               <div className="flex items-center gap-4 mb-8">
-                <img 
-                  src="/src/123.png" 
-                  alt="Shilian Electronics Logo" 
-                  className="h-14 w-auto object-contain"
-                  referrerPolicy="no-referrer"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = "/input_file_1.png";
-                  }}
-                />
                 <div className="flex flex-col text-white">
                   <span className="text-xl font-black tracking-tighter leading-none">
                     {t.company}
