@@ -274,14 +274,23 @@ export default function App() {
                     onClick={() => setSelectedProject(project)}
                   >
                     {project.videoUrl ? (
-                      <video 
-                        src={project.videoUrl} 
-                        autoPlay 
-                        muted 
-                        loop 
-                        playsInline
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
+                      project.videoUrl.includes('player.mux.com') ? (
+                        <iframe 
+                          src={`${project.videoUrl}?autoplay=1&muted=1&loop=1&controls=0`} 
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 pointer-events-none"
+                          allow="autoplay; fullscreen"
+                          style={{ border: 'none' }}
+                        />
+                      ) : (
+                        <video 
+                          src={project.videoUrl} 
+                          autoPlay 
+                          muted 
+                          loop 
+                          playsInline
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                      )
                     ) : project.imageUrl ? (
                       <img 
                         src={project.imageUrl} 
@@ -481,12 +490,21 @@ export default function App() {
             >
               <div className="w-full h-full pb-[56.25%] relative bg-black">
                 {selectedProject.videoUrl ? (
-                  <video 
-                    src={selectedProject.videoUrl} 
-                    autoPlay 
-                    controls
-                    className="absolute inset-0 w-full h-full object-contain"
-                  />
+                  selectedProject.videoUrl.includes('player.mux.com') ? (
+                    <iframe 
+                      src={`${selectedProject.videoUrl}?autoplay=1`} 
+                      className="absolute inset-0 w-full h-full"
+                      allow="autoplay; fullscreen"
+                      style={{ border: 'none' }}
+                    />
+                  ) : (
+                    <video 
+                      src={selectedProject.videoUrl} 
+                      autoPlay 
+                      controls
+                      className="absolute inset-0 w-full h-full object-contain"
+                    />
+                  )
                 ) : selectedProject.imageUrl ? (
                   <img 
                     src={selectedProject.imageUrl} 
