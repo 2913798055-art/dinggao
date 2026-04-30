@@ -77,6 +77,7 @@ export default function App() {
   const [provinceFilter, setProvinceFilter] = useState('all');
   const [search, setSearch] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const t = translations[lang];
 
@@ -120,7 +121,7 @@ export default function App() {
           <a href="#contact" className="hover:text-primary transition-colors">{t.navContact}</a>
           <button 
             onClick={switchLang}
-            className="flex items-center gap-1 px-3 py-1 bg-slate-100 rounded-full hover:bg-slate-200 transition-colors"
+            className="flex items-center gap-1 px-3 py-1 bg-white/10 rounded-full hover:bg-white/20 transition-colors"
           >
             <Globe size={14} />
             {lang === 'zh' ? 'English' : '中文'}
@@ -128,7 +129,7 @@ export default function App() {
         </div>
 
         <div className="md:hidden flex items-center gap-4">
-          <button onClick={switchLang} className="p-2 bg-slate-100 rounded-full">
+          <button onClick={switchLang} className="p-2 bg-white/10 rounded-full">
             <Globe size={18} />
           </button>
           <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2">
@@ -144,7 +145,7 @@ export default function App() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-x-0 bg-white z-40 border-b shadow-xl p-6 flex flex-col gap-4 md:hidden"
+            className="fixed inset-x-0 bg-slate-900 border-b border-white/10 z-40 shadow-xl p-6 flex flex-col gap-4 md:hidden"
           >
             <a href="#" onClick={() => setIsMenuOpen(false)} className="text-lg font-medium">{t.navHome}</a>
             <a href="#projects" onClick={() => setIsMenuOpen(false)} className="text-lg font-medium">{t.navProjects}</a>
@@ -162,13 +163,13 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-block px-4 py-1.5 bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest rounded-full mb-6">
+            <span className="inline-block px-4 py-1.5 bg-primary/20 text-primary-300 text-xs font-bold uppercase tracking-widest rounded-full mb-6">
               Industry Leading LED Solutions
             </span>
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-black mb-8 leading-[1.1] tracking-tight px-4 sm:px-0">
               {t.slogan}
             </h1>
-            <p className="text-base sm:text-lg text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed px-4">
+            <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto mb-10 leading-relaxed px-4">
               {t.description}
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4 px-6 sm:px-0">
@@ -180,7 +181,7 @@ export default function App() {
               </a>
               <a 
                 href="#contact"
-                className="px-8 py-4 bg-white border border-slate-200 text-slate-900 rounded-2xl font-bold hover:bg-slate-50 transition-colors flex items-center justify-center"
+                className="px-8 py-4 bg-white/10 border border-white/10 text-white rounded-2xl font-bold hover:bg-white/20 transition-colors flex items-center justify-center"
               >
                 {t.navContact}
               </a>
@@ -199,7 +200,7 @@ export default function App() {
               { icon: <Users className="text-blue-500" />, count: lang === 'zh' ? "核心团队" : "Experts", label: t.statService }
             ].map((stat, i) => (
               <div key={i} className={`tech-card p-6 sm:p-10 text-center ${i === 2 ? 'sm:col-span-2 md:col-span-1' : ''}`}>
-                <div className="inline-flex p-3 bg-slate-50 rounded-xl mb-4">{stat.icon}</div>
+                <div className="inline-flex p-3 bg-white/5 rounded-xl mb-4">{stat.icon}</div>
                 <div className="text-2xl sm:text-3xl font-black mb-1">{stat.count}</div>
                 <div className="text-[10px] sm:text-sm text-slate-400 uppercase tracking-wider font-bold">{stat.label}</div>
               </div>
@@ -209,7 +210,7 @@ export default function App() {
       </header>
 
       {/* Projects Section */}
-      <section id="projects" className="py-24 bg-white/60 backdrop-blur-sm relative z-0">
+      <section id="projects" className="py-24 bg-slate-950/60 backdrop-blur-sm relative z-0">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
             <div>
@@ -218,11 +219,11 @@ export default function App() {
                 <select 
                   value={provinceFilter}
                   onChange={(e) => setProvinceFilter(e.target.value)}
-                  className="px-4 py-2 bg-slate-100 border-none rounded-full text-sm font-bold focus:ring-2 focus:ring-primary/20"
+                  className="px-4 py-2 bg-white/10 border-none rounded-full text-sm font-bold focus:ring-2 focus:ring-primary/50 text-white appearance-none"
                 >
-                  <option value="all">{lang === 'zh' ? '所有省级地区' : 'All Provinces'}</option>
+                  <option value="all" className="bg-slate-900">{lang === 'zh' ? '所有省级地区' : 'All Provinces'}</option>
                   {provinces.map(p => (
-                    <option key={p} value={p}>{p}</option>
+                    <option key={p} value={p} className="bg-slate-900">{p}</option>
                   ))}
                 </select>
                 {(['all', 'bar', 'ktv'] as const).map(cat => (
@@ -232,7 +233,7 @@ export default function App() {
                     className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${
                       activeTab === cat 
                         ? 'bg-primary text-white shadow-lg shadow-primary/20' 
-                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                        : 'bg-white/5 text-slate-300 hover:bg-white/10'
                     }`}
                   >
                     {cat === 'all' ? t.categoryAll : cat === 'bar' ? t.categoryBar : t.categoryKtv}
@@ -246,7 +247,7 @@ export default function App() {
               <input 
                 type="text"
                 placeholder={t.searchPlaceholder}
-                className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-white placeholder-slate-500"
                 value={search}
                 onChange={e => setSearch(e.target.value)}
               />
@@ -266,9 +267,12 @@ export default function App() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.2 }}
-                  className="group relative bg-white rounded-2xl border border-slate-100 overflow-hidden hover:border-primary/30 transition-all hover:shadow-2xl hover:-translate-y-1"
+                  className="group relative bg-white/5 rounded-2xl border border-white/10 overflow-hidden hover:border-primary/50 transition-all hover:shadow-2xl hover:-translate-y-1"
                 >
-                  <div className="relative h-48 overflow-hidden bg-slate-100">
+                  <div 
+                    className="relative h-48 overflow-hidden bg-white/5 cursor-pointer"
+                    onClick={() => setSelectedProject(project)}
+                  >
                     {project.videoUrl ? (
                       <video 
                         src={project.videoUrl} 
@@ -276,7 +280,7 @@ export default function App() {
                         muted 
                         loop 
                         playsInline
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />
                     ) : project.imageUrl ? (
                       <img 
@@ -286,12 +290,21 @@ export default function App() {
                         referrerPolicy="no-referrer"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-slate-300">
+                      <div className="w-full h-full flex items-center justify-center text-slate-600">
                         <Monitor size={48} opacity={0.2} />
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                       <span className="text-white text-xs font-bold flex items-center gap-1">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                       {project.videoUrl ? (
+                         <div className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white">
+                           <Play size={20} fill="currentColor" className="ml-1" />
+                         </div>
+                       ) : (
+                         <div className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white">
+                           <Search size={20} />
+                         </div>
+                       )}
+                       <span className="absolute bottom-4 left-4 text-white text-xs font-bold flex items-center gap-1">
                           <Zap size={12} fill="currentColor" /> {lang === 'zh' ? '经典案例' : 'Classic Case'}
                        </span>
                     </div>
@@ -299,14 +312,14 @@ export default function App() {
                   
                   <div className="p-5">
                     <div className="flex items-center justify-between mb-3">
-                      <div className={`p-1.5 rounded-lg ${project.category === 'bar' ? 'bg-indigo-50 text-indigo-500' : 'bg-pink-50 text-pink-500'}`}>
+                      <div className={`p-1.5 rounded-lg ${project.category === 'bar' ? 'bg-indigo-500/20 text-indigo-400' : 'bg-pink-500/20 text-pink-400'}`}>
                         {project.category === 'bar' ? <Music size={14} /> : <BarChart3 size={14} />}
                       </div>
-                      <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 px-2 py-0.5 rounded">
+                      <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-slate-300 bg-white/10 px-2 py-0.5 rounded">
                         {project.category === 'bar' ? 'Bar & Club' : 'KTV Room'}
                       </span>
                     </div>
-                    <h3 className="font-bold text-slate-900 group-hover:text-primary transition-colors leading-tight mb-4 min-h-[2.5rem] text-sm sm:text-base">
+                    <h3 className="font-bold text-white group-hover:text-primary transition-colors leading-tight mb-4 min-h-[2.5rem] text-sm sm:text-base">
                       {project.name}
                     </h3>
                     <div className="flex items-center justify-between">
@@ -331,18 +344,18 @@ export default function App() {
       </section>
 
       {/* Projects Wall / About Section */}
-      <section id="about" className="py-24 bg-slate-50/60 backdrop-blur-sm relative z-0 overflow-hidden">
+      <section id="about" className="py-24 bg-black/60 backdrop-blur-sm relative z-0 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <span className="text-primary font-black uppercase tracking-widest text-sm mb-4 block">Proven Experience</span>
-            <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight">
+            <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-white">
               {lang === 'zh' ? '全案工程案例一览' : 'Complete Project Portfolio'}
             </h2>
             <div className="w-24 h-1.5 bg-primary mx-auto rounded-full mb-8" />
-            <p className="text-lg text-slate-500 max-w-3xl mx-auto">
+            <p className="text-lg text-slate-400 max-w-3xl mx-auto">
               {lang === 'zh' 
-                ? '多年深耕娱乐行业，我们已在全国乃至东南亚落地上百个顶尖工程项目。' 
-                : 'With years of expertise in the entertainment industry, we have successfully delivered hundreds of top-tier projects worldwide.'}
+                ? '多年深耕娱乐行业，我们已在全国乃至东南亚落地上万个顶尖工程项目。' 
+                : 'With years of expertise in the entertainment industry, we have successfully delivered tens of thousands of top-tier projects worldwide.'}
             </p>
           </div>
 
@@ -355,7 +368,7 @@ export default function App() {
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ delay: idx * 0.005, duration: 0.3 }}
                   viewport={{ once: true }}
-                  className="break-inside-avoid flex items-center gap-2 px-3 py-2 bg-white rounded-lg border border-slate-100 text-[11px] md:text-xs font-bold text-slate-600 shadow-xs hover:border-primary/50 hover:text-primary hover:shadow-lg hover:shadow-primary/5 transition-all cursor-default"
+                  className="break-inside-avoid flex items-center gap-2 px-3 py-2 bg-white/5 rounded-lg border border-white/10 text-[11px] md:text-xs font-bold text-slate-300 shadow-xs hover:border-primary/50 hover:text-primary hover:shadow-lg hover:shadow-primary/5 transition-all cursor-default"
                 >
                   <div className="w-1 h-1 bg-primary/40 rounded-full" />
                   <span className="truncate">{project.name}</span>
@@ -363,8 +376,8 @@ export default function App() {
               ))}
             </div>
             {/* Visual indicators for wall richness */}
-            <div className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-slate-50 to-transparent z-10 pointer-events-none" />
-            <div className="absolute bottom-0 inset-x-0 h-20 bg-gradient-to-t from-slate-50 to-transparent z-10 pointer-events-none" />
+            <div className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-slate-950 to-transparent z-10 pointer-events-none" />
+            <div className="absolute bottom-0 inset-x-0 h-20 bg-gradient-to-t from-slate-950 to-transparent z-10 pointer-events-none" />
           </div>
 
           <div className="mt-20 grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -374,8 +387,8 @@ export default function App() {
               { label: lang === 'zh' ? '娱乐品牌' : 'Brands', value: '50+' },
               { label: lang === 'zh' ? '硬件标准' : 'Standard', value: 'ISO/CE' }
             ].map((stat, i) => (
-              <div key={i} className="bg-white p-6 rounded-2xl border border-slate-100 text-center shadow-sm">
-                <div className="text-2xl font-black text-slate-900 mb-1">{stat.value}</div>
+              <div key={i} className="bg-white/5 p-6 rounded-2xl border border-white/10 text-center shadow-sm">
+                <div className="text-2xl font-black text-white mb-1">{stat.value}</div>
                 <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{stat.label}</div>
               </div>
             ))}
@@ -442,6 +455,68 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* Project Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm"
+            onClick={() => setSelectedProject(null)}
+          >
+            <button 
+              className="absolute top-6 right-6 p-2 bg-white/10 rounded-full text-white hover:bg-white/20 transition-colors"
+              onClick={() => setSelectedProject(null)}
+            >
+              <X size={24} />
+            </button>
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="relative w-full max-w-5xl max-h-[85vh] rounded-2xl overflow-hidden bg-slate-900 border border-white/10"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="w-full h-full pb-[56.25%] relative bg-black">
+                {selectedProject.videoUrl ? (
+                  <video 
+                    src={selectedProject.videoUrl} 
+                    autoPlay 
+                    controls
+                    className="absolute inset-0 w-full h-full object-contain"
+                  />
+                ) : selectedProject.imageUrl ? (
+                  <img 
+                    src={selectedProject.imageUrl} 
+                    alt={selectedProject.name}
+                    className="absolute inset-0 w-full h-full object-contain"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center text-slate-600">
+                    <Monitor size={64} opacity={0.2} />
+                  </div>
+                )}
+              </div>
+              <div className="p-6 bg-slate-950">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="text-xs font-black uppercase tracking-widest text-primary bg-primary/10 px-2 py-1 rounded">
+                    {selectedProject.category === 'bar' ? 'Bar & Club' : 'KTV Room'}
+                  </span>
+                  <span className="text-slate-400 text-sm flex items-center gap-1">
+                    <MapPin size={14} /> {selectedProject.province} {selectedProject.region}
+                  </span>
+                </div>
+                <h3 className="text-2xl font-bold text-white">
+                  {selectedProject.name}
+                </h3>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

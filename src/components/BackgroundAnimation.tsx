@@ -15,7 +15,7 @@ export const BackgroundAnimation: React.FC = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 -z-20 overflow-hidden pointer-events-none bg-slate-50">
+    <div className="fixed inset-0 -z-20 overflow-hidden pointer-events-none bg-slate-950">
       <div className="absolute inset-0 opacity-20">
         {particles.map((p) => (
           <motion.div
@@ -43,7 +43,7 @@ export const BackgroundAnimation: React.FC = () => {
           />
         ))}
       </div>
-      <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:32px_32px] opacity-30" />
+      <div className="absolute inset-0 bg-[radial-gradient(#ffffff22_1px,transparent_1px)] [background-size:32px_32px] opacity-30" />
     </div>
   );
 };

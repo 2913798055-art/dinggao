@@ -8,13 +8,13 @@
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900;
+    @apply bg-slate-950 text-white;
   }
 }
 
 @layer components {
   .tech-card {
-    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-sm rounded-2xl transition-all duration-300;
+    @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-sm rounded-2xl transition-all duration-300;
   }
   
   .tech-card:hover {
@@ -26,7 +26,7 @@
   }
 
   .glass-nav {
-    @apply sticky top-0 z-50 bg-white/70 backdrop-blur-lg border-b border-white/30;
+    @apply sticky top-0 z-50 bg-black/50 backdrop-blur-lg border-b border-white/10;
   }
 }
 
@@ -44,9 +44,9 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-slate-100;
+  @apply bg-slate-950;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-300 rounded-full hover:bg-slate-400;
+  @apply bg-white/20 rounded-full hover:bg-white/30;
 }
