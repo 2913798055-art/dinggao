@@ -23,10 +23,13 @@ const KTV_IMAGES = [
 ];
 
 export const projects: Project[] = [
+  // --- 首推项目 (Featured) ---
+  { id: 'cq-5', name: 'SPACE重庆店', category: 'bar', region: '重庆', province: '重庆', imageUrl: BAR_IMAGES[0] },
+
   // --- 云南省 (Yunnan) ---
   { id: 'yn-1', name: '云南普洱H98.酒吧', category: 'bar', region: '普洱', province: '云南', imageUrl: BAR_IMAGES[0] },
   { id: 'yn-2', name: '云南瑞丽懿诚娱乐', category: 'bar', region: '瑞丽', province: '云南', imageUrl: BAR_IMAGES[1], videoUrl: 'https://player.mux.com/wjuKBAzVlqw4aQsnwxqIO4ealuW02t6iz7QE38ogm6GA' },
-  { id: 'yn-3', name: '云南昭通亿瓦酒吧', category: 'bar', region: '昭通', province: '云南', imageUrl: BAR_IMAGES[2], videoUrl: '/videos/云南昭通亿瓦酒吧.mp4' },
+  { id: 'yn-3', name: '云南昭通亿瓦酒吧', category: 'bar', region: '昭通', province: '云南', imageUrl: BAR_IMAGES[2], videoUrl: 'https://lh3.googleusercontent.com/pw/AP1GczPaQl-vHcZmR8Li3EpXwwDHrvobitmtd92gIvtntDV_eiFRnjgV1wehAjC6vtXuGIhyLCm53xT_MSLEx6EryXaDDn7YE2wrlwzP7aevSQ6YqD_hP4WAbz-k6mu8kZnxVBDy3D8stUrOTUxUmX-GxGv3OBEgpFY6WutxDQCFE7gcIKZdBrqOQmFtHSCORkj-JL8PkO_Fpk0D-JYVWsei20sZJnBRrdeXFkREE4hxOHvEgw7F7vZTK5CYB7mY8UYU_fMa51fzA9uDLNcidgn55DdZ4KYyTDl12E2E-9ongaTsasjoi-zxRAKnM39w298IsomO417tE8bXka0xs7_RBIYnWAMf4zUyCdXdIDjRFfvQFLFJGiIxqLRzT4tkCv62uYOSKMbBodX3N8D-RXsAV-DOeY-EJpqIt-UPq64XRCfHwFE-pzAbOz5pbqt06IeHY0lPig8uOsOj4gojMSJb3SnsGdXbFE6vmBQHnhBNwr47SYcaY42wEiyC9lXmu_gp43biwXFXuSLYVcBtM_4AQN8OgNkvXUitDfPBcjzbfB9hVumPekL_cXLzrXlZgPKMtErtbWniVpFbbcGwZLWYRzjTR0GvXpZ4ZEnXwX9f0-YInk1oRXCR2khf4UwcQ-W1dF5Xk0h_6E6g_El0tgIXcuJVt_ZtCR7PgmzgoGU0J5OIp7S5sokHZSexZWYoPeoULSooZu8H3PZsUppdxF8ae1zOhdbNOmvpI2ub6YApnA2mSU14_0GdbtiyCWqvenFTmjXFY2rTBqsnbFN4oYLyYnmAFeaeLqOxABLVD6KDQkoLaE1Pyl-UNn-6iXaIOdWDlPnNchuvKY28NyAD9BCXWUKUvB6p7cbO12GUcRC8vr0XQ4A-6y45F2IDo2buMAaq-9QB0cTFlQ-5LTxbGHe8=m15?authuser=0&cpn=Vqp-KDctbYMxwOOH&c=WEB_EMBEDDED_PLAYER&cver=1.20260426.00.00' },
   { id: 'yn-4', name: '云南瑞丽约克王朝', category: 'bar', region: '瑞丽', province: '云南', imageUrl: BAR_IMAGES[3], videoUrl: '/videos/云南瑞丽约克王朝.mp4' },
   { id: 'yn-5', name: '云南腾冲 叶 live house', category: 'bar', region: '腾冲', province: '云南', imageUrl: BAR_IMAGES[0], videoUrl: '/videos/云南腾冲 叶 live house.mp4' },
   { id: 'yn-6', name: '云南嵩明7M酒吧', category: 'bar', region: '嵩明', province: '云南', imageUrl: BAR_IMAGES[1], videoUrl: '/videos/云南嵩明7M酒吧.mp4' },
@@ -39,7 +42,7 @@ export const projects: Project[] = [
   { id: 'yn-13', name: '云南昆明范Kunming Fan', category: 'bar', region: '昆明', province: '云南', imageUrl: BAR_IMAGES[0] },
   { id: 'yn-14', name: '云南昭通南live house', category: 'bar', region: '昭通', province: '云南', imageUrl: BAR_IMAGES[1] },
   { id: 'yn-15', name: '云南普洱MOTION', category: 'bar', region: '普洱', province: '云南', imageUrl: BAR_IMAGES[2] },
-  { id: 'yn-16', name: '云南昆明觉宴', category: 'bar', region: '昆明', province: '云南', imageUrl: BAR_IMAGES[3] },
+  { id: 'yn-16', name: '云南昆明觉宴', category: 'bar', region: '昆明', province: '云南', imageUrl: BAR_IMAGES[3], videoUrl: 'https://photos.google.com/album/AF1QipMlQuwtli2cA5T7b5mTNSe5cUl4oRlJn4urzbkm/photo/AF1QipO-3lv1_XIMy1p_7glzHMBIxvcAvBBydx8c34BN' },
   { id: 'yn-17', name: '云南大理EVOLUTION跳舞俱乐部', category: 'bar', region: '大理', province: '云南', imageUrl: BAR_IMAGES[0] },
   { id: 'yn-18', name: '云南芒市live house', category: 'bar', region: '芒市', province: '云南', imageUrl: BAR_IMAGES[1] },
   { id: 'yn-19', name: '云南曲靖UNNIGHT SHOW', category: 'bar', region: '曲靖', province: '云南', imageUrl: BAR_IMAGES[2] },
@@ -49,7 +52,7 @@ export const projects: Project[] = [
 
   // --- 四川、重庆 (Sichuan & Chongqing) ---
   { id: 'sc-1', name: '四川南充SPACE', category: 'bar', region: '南充', province: '四川', imageUrl: BAR_IMAGES[0] },
-  { id: 'sc-2', name: '四川成都UT酒吧', category: 'bar', region: '成都', province: '四川', imageUrl: BAR_IMAGES[1] },
+  { id: 'sc-2', name: '四川成都UT酒吧', category: 'bar', region: '成都', province: '四川', imageUrl: BAR_IMAGES[1], douyinUrl: 'https://www.douyin.com/video/7559235498163195188?modeFrom=searchResult' },
   { id: 'sc-3', name: '四川隆昌BBC酒吧', category: 'bar', region: '隆昌', province: '四川', imageUrl: BAR_IMAGES[2] },
   { id: 'sc-4', name: '四川成都T61', category: 'bar', region: '成都', province: '四川', imageUrl: BAR_IMAGES[3] },
   { id: 'sc-5', name: '四川成都play house', category: 'bar', region: '成都', province: '四川', imageUrl: BAR_IMAGES[0] },
@@ -60,8 +63,7 @@ export const projects: Project[] = [
   { id: 'cq-2', name: '重庆T61', category: 'bar', region: '重庆', province: '重庆', imageUrl: BAR_IMAGES[1] },
   { id: 'cq-3', name: '荣昌SPACE', category: 'bar', region: '荣昌', province: '重庆', imageUrl: BAR_IMAGES[2] },
   { id: 'cq-4', name: '重庆Playhouse顶级派对空间', category: 'bar', region: '重庆', province: '重庆', imageUrl: BAR_IMAGES[3] },
-  { id: 'cq-5', name: 'SPACE重庆店', category: 'bar', region: '重庆', province: '重庆', imageUrl: BAR_IMAGES[0] },
-
+  
   // --- 广东 (Guangdong) ---
   { id: 'gd-1', name: '广东深圳012派对空间', category: 'bar', region: '深圳', province: '广东', imageUrl: BAR_IMAGES[0] },
   { id: 'gd-2', name: '广东广州白云G5红live show', category: 'bar', region: '广州', province: '广东', imageUrl: BAR_IMAGES[1] },

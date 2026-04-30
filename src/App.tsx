@@ -107,8 +107,14 @@ export default function App() {
       {/* Navigation */}
       <nav className="glass-nav px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <div className="flex flex-col">
-            <span className="text-xl font-black tracking-tighter leading-none">
+          <div className="flex items-center gap-3">
+            <svg viewBox="0 0 144 48" className="h-7 sm:h-8 w-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0" y="16" width="16" height="16" rx="3" fill="#00E5FF" />
+              <rect x="22" y="16" width="16" height="16" rx="3" fill="#00E5FF" />
+              <path d="M47 0 C45.3431 0 44 1.34315 44 3V16H53V32H44V45C44 46.6569 45.3431 48 47 48H60V0H47Z" fill="#00E5FF" />
+              <path d="M60 0H140C142.209 0 144 1.79086 144 4V44C144 46.2091 142.209 48 140 48H60V0Z" fill="#0066FF" />
+            </svg>
+            <span className="text-xl font-black tracking-tighter leading-none hidden sm:block">
               {t.company}
             </span>
           </div>
@@ -195,8 +201,8 @@ export default function App() {
             className="mt-12 sm:mt-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 px-4"
           >
             {[
-              { icon: <Zap className="text-amber-500" />, count: "200+", label: t.statProjects },
-              { icon: <MapPin className="text-red-500" />, count: "50+", label: t.statCities },
+              { icon: <Zap className="text-amber-500" />, count: "10000+", label: t.statProjects },
+              { icon: <MapPin className="text-red-500" />, count: "800+", label: t.statCities },
               { icon: <Users className="text-blue-500" />, count: lang === 'zh' ? "核心团队" : "Experts", label: t.statService }
             ].map((stat, i) => (
               <div key={i} className={`tech-card p-6 sm:p-10 text-center ${i === 2 ? 'sm:col-span-2 md:col-span-1' : ''}`}>
@@ -274,9 +280,9 @@ export default function App() {
                     onClick={() => setSelectedProject(project)}
                   >
                     {project.videoUrl ? (
-                      project.videoUrl.includes('player.mux.com') ? (
+                      project.videoUrl.includes('player.mux.com') || project.videoUrl.includes('photos.google.com') ? (
                         <iframe 
-                          src={`${project.videoUrl}?autoplay=1&muted=1&loop=1&controls=0`} 
+                          src={project.videoUrl.includes('player.mux.com') ? `${project.videoUrl}?autoplay=1&muted=1&loop=1&controls=0` : project.videoUrl} 
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 pointer-events-none"
                           allow="autoplay; fullscreen"
                           style={{ border: 'none' }}
@@ -304,7 +310,7 @@ export default function App() {
                       </div>
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                       {project.videoUrl ? (
+                       {(project.videoUrl || project.douyinUrl) ? (
                          <div className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white">
                            <Play size={20} fill="currentColor" className="ml-1" />
                          </div>
@@ -389,19 +395,6 @@ export default function App() {
             <div className="absolute bottom-0 inset-x-0 h-20 bg-gradient-to-t from-slate-950 to-transparent z-10 pointer-events-none" />
           </div>
 
-          <div className="mt-20 grid grid-cols-1 md:grid-cols-4 gap-8">
-            {[
-              { label: lang === 'zh' ? '覆盖国家' : 'Countries', value: '5+' },
-              { label: lang === 'zh' ? '落地省份' : 'Provinces', value: '20+' },
-              { label: lang === 'zh' ? '娱乐品牌' : 'Brands', value: '50+' },
-              { label: lang === 'zh' ? '硬件标准' : 'Standard', value: 'ISO/CE' }
-            ].map((stat, i) => (
-              <div key={i} className="bg-white/5 p-6 rounded-2xl border border-white/10 text-center shadow-sm">
-                <div className="text-2xl font-black text-white mb-1">{stat.value}</div>
-                <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{stat.label}</div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -490,9 +483,9 @@ export default function App() {
             >
               <div className="w-full h-full pb-[56.25%] relative bg-black">
                 {selectedProject.videoUrl ? (
-                  selectedProject.videoUrl.includes('player.mux.com') ? (
+                  selectedProject.videoUrl.includes('player.mux.com') || selectedProject.videoUrl.includes('photos.google.com') ? (
                     <iframe 
-                      src={`${selectedProject.videoUrl}?autoplay=1`} 
+                      src={selectedProject.videoUrl.includes('player.mux.com') ? `${selectedProject.videoUrl}?autoplay=1` : selectedProject.videoUrl} 
                       className="absolute inset-0 w-full h-full"
                       allow="autoplay; fullscreen"
                       style={{ border: 'none' }}
@@ -505,6 +498,17 @@ export default function App() {
                       className="absolute inset-0 w-full h-full object-contain"
                     />
                   )
+                ) : selectedProject.douyinUrl ? (
+                  <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-black/80 text-white rounded-2xl">
+                     <div className="mb-4 text-center px-4">
+                       <Play size={48} className="mx-auto mb-4 opacity-50 text-white" />
+                       <h3 className="text-xl font-bold mb-2">{lang === 'zh' ? '在抖音中打开' : 'Open in Douyin'}</h3>
+                       <p className="text-slate-400 mb-6">{lang === 'zh' ? '该视频为抖音视频，点击下方按钮在新窗口中观看。' : 'This video is hosted on Douyin. Click the button below to watch it in a new window.'}</p>
+                       <a href={selectedProject.douyinUrl} target="_blank" rel="noopener noreferrer" className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-full font-bold transition-colors inline-flex items-center gap-2">
+                          <Play size={18} fill="currentColor" /> {lang === 'zh' ? '去观看' : 'Watch Now'}
+                       </a>
+                     </div>
+                  </div>
                 ) : selectedProject.imageUrl ? (
                   <img 
                     src={selectedProject.imageUrl} 
