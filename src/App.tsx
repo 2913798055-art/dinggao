@@ -1,25 +1,20 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
-  BarChart3, 
   Lightbulb, 
-  Music, 
   Users, 
   Mail, 
   Phone, 
   MapPin, 
-  Search, 
   ChevronRight,
   Globe,
-  Monitor,
   Zap,
   Menu,
-  X,
-  Play,
-  ExternalLink
+  X
 } from 'lucide-react';
 import { BackgroundAnimation } from './components/BackgroundAnimation';
-import { projects, Project } from './data/projects';
+import { ProjectsOverview } from './components/ProjectsOverview';
+import { projectGroups } from './data/projects';
 
 // Localization
 const translations = {
@@ -28,19 +23,9 @@ const translations = {
     slogan: "引领光的艺术，重塑空间魅力",
     description: "致力于为高端酒吧、Livehouse、KTV提供最前沿的LED视觉产品与整体解决方案。我们以技术为核心，用创意点亮每一个娱乐瞬间。",
     navHome: "首页",
-    navProjects: "项目案例",
-    navAbout: "关于我们",
+    navProjects: "项目一览",
+    navHistory: "发展史",
     navContact: "联系我们",
-    categoryAll: "全部案例",
-    categoryBar: "酒吧案例",
-    categoryKtv: "KTV案例",
-    searchPlaceholder: "搜索项目名称或地区...",
-    statProjects: "成功案例",
-    statCities: "覆盖城市",
-    statService: "专业团队",
-    aboutTitle: "为什么选择视励安？",
-    aboutDesc: "我们专注于LED光电技术的研发与应用，不仅提供硬件，更提供完整的视觉艺术表达。从概念设计到落地执行，视励安是您最值得信赖的伙伴。",
-    contactTitle: "联系我们",
     address: "广州市番禺区东环街道骏盈大厦2栋319-321",
     phone: "王云：18820206662",
     email: "2913798055@qq.com",
@@ -52,18 +37,8 @@ const translations = {
     description: "Dedicated to providing cutting-edge LED visual products and turn-key solutions for high-end bars, livehouses, and KTVs. We bridge technology and creativity.",
     navHome: "Home",
     navProjects: "Projects",
-    navAbout: "About Us",
+    navHistory: "History",
     navContact: "Contact",
-    categoryAll: "All Projects",
-    categoryBar: "Bar & Club",
-    categoryKtv: "KTV & Party",
-    searchPlaceholder: "Search projects or regions...",
-    statProjects: "Projects",
-    statCities: "Cities",
-    statService: "Service Team",
-    aboutTitle: "Why Choose Shilian?",
-    aboutDesc: "We focus on R&D and application of LED optoelectronic technology, providing not just hardware, but complete visual artistic expression. From conceptual design to execution.",
-    contactTitle: "Contact Us",
     address: "319-321, Building 2, Junying Building, Donghuan Street, Panyu District, Guangzhou",
     phone: "Wang Yun: +86 18820206662",
     email: "2913798055@qq.com",
@@ -73,27 +48,9 @@ const translations = {
 
 export default function App() {
   const [lang, setLang] = useState<'zh' | 'en'>('zh');
-  const [activeTab, setActiveTab] = useState<'all' | 'bar' | 'ktv'>('all');
-  const [provinceFilter, setProvinceFilter] = useState('all');
-  const [search, setSearch] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const t = translations[lang];
-
-  const provinces = useMemo(() => {
-    return Array.from(new Set(projects.map(p => p.province).filter(Boolean))).sort();
-  }, []);
-
-  const filteredProjects = useMemo(() => {
-    return projects.filter(p => {
-      const matchCategory = activeTab === 'all' || p.category === activeTab;
-      const matchProvince = provinceFilter === 'all' || p.province === provinceFilter;
-      const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) || 
-                          (p.region && p.region.toLowerCase().includes(search.toLowerCase()));
-      return matchCategory && matchProvince && matchSearch;
-    });
-  }, [activeTab, provinceFilter, search]);
 
   const switchLang = () => setLang(prev => prev === 'zh' ? 'en' : 'zh');
 
@@ -123,7 +80,7 @@ export default function App() {
         <div className="hidden md:flex items-center gap-8 text-sm font-medium">
           <a href="#" className="hover:text-primary transition-colors">{t.navHome}</a>
           <a href="#projects" className="hover:text-primary transition-colors">{t.navProjects}</a>
-          <a href="#about" className="hover:text-primary transition-colors">{t.navAbout}</a>
+          <a href="#history" className="hover:text-primary transition-colors">{t.navHistory}</a>
           <a href="#contact" className="hover:text-primary transition-colors">{t.navContact}</a>
           <button 
             onClick={switchLang}
@@ -155,7 +112,7 @@ export default function App() {
           >
             <a href="#" onClick={() => setIsMenuOpen(false)} className="text-lg font-medium">{t.navHome}</a>
             <a href="#projects" onClick={() => setIsMenuOpen(false)} className="text-lg font-medium">{t.navProjects}</a>
-            <a href="#about" onClick={() => setIsMenuOpen(false)} className="text-lg font-medium">{t.navAbout}</a>
+            <a href="#history" onClick={() => setIsMenuOpen(false)} className="text-lg font-medium">{t.navHistory}</a>
             <a href="#contact" onClick={() => setIsMenuOpen(false)} className="text-lg font-medium">{t.navContact}</a>
           </motion.div>
         )}
@@ -201,9 +158,9 @@ export default function App() {
             className="mt-12 sm:mt-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 px-4"
           >
             {[
-              { icon: <Zap className="text-amber-500" />, count: "10000+", label: t.statProjects },
-              { icon: <MapPin className="text-red-500" />, count: "800+", label: t.statCities },
-              { icon: <Users className="text-blue-500" />, count: lang === 'zh' ? "核心团队" : "Experts", label: t.statService }
+              { icon: <Zap className="text-amber-500" />, count: "10000+", label: lang === 'zh' ? '交付项目' : 'Projects' },
+              { icon: <MapPin className="text-red-500" />, count: "800+", label: lang === 'zh' ? '覆盖城市' : 'Cities' },
+              { icon: <Users className="text-blue-500" />, count: lang === 'zh' ? "核心团队" : "Experts", label: lang === 'zh' ? '专业团队' : 'Service Team' }
             ].map((stat, i) => (
               <div key={i} className={`tech-card p-6 sm:p-10 text-center ${i === 2 ? 'sm:col-span-2 md:col-span-1' : ''}`}>
                 <div className="inline-flex p-3 bg-white/5 rounded-xl mb-4">{stat.icon}</div>
@@ -215,186 +172,55 @@ export default function App() {
         </div>
       </header>
 
-      {/* Projects Section */}
-      <section id="projects" className="py-24 bg-slate-950/60 backdrop-blur-sm relative z-0">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-            <div>
-              <h2 className="text-4xl font-black mb-4 tracking-tight">{t.navProjects}</h2>
-              <div className="flex flex-wrap gap-3">
-                <select 
-                  value={provinceFilter}
-                  onChange={(e) => setProvinceFilter(e.target.value)}
-                  className="px-4 py-2 bg-white/10 border-none rounded-full text-sm font-bold focus:ring-2 focus:ring-primary/50 text-white appearance-none"
-                >
-                  <option value="all" className="bg-slate-900">{lang === 'zh' ? '所有省级地区' : 'All Provinces'}</option>
-                  {provinces.map(p => (
-                    <option key={p} value={p} className="bg-slate-900">{p}</option>
-                  ))}
-                </select>
-                {(['all', 'bar', 'ktv'] as const).map(cat => (
-                  <button
-                    key={cat}
-                    onClick={() => setActiveTab(cat)}
-                    className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${
-                      activeTab === cat 
-                        ? 'bg-primary text-white shadow-lg shadow-primary/20' 
-                        : 'bg-white/5 text-slate-300 hover:bg-white/10'
-                    }`}
-                  >
-                    {cat === 'all' ? t.categoryAll : cat === 'bar' ? t.categoryBar : t.categoryKtv}
-                  </button>
-                ))}
-              </div>
-            </div>
+      <ProjectsOverview />
 
-            <div className="relative w-full max-w-md">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-              <input 
-                type="text"
-                placeholder={t.searchPlaceholder}
-                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-white placeholder-slate-500"
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <motion.div 
-            layout
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
-          >
-            <AnimatePresence mode="popLayout">
-              {filteredProjects.map((project) => (
-                <motion.div
-                  key={project.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.2 }}
-                  className="group relative bg-white/5 rounded-2xl border border-white/10 overflow-hidden hover:border-primary/50 transition-all hover:shadow-2xl hover:-translate-y-1"
-                >
-                  <div 
-                    className="relative h-48 overflow-hidden bg-white/5 cursor-pointer"
-                    onClick={() => setSelectedProject(project)}
-                  >
-                    {project.videoUrl ? (
-                      project.videoUrl.includes('player.mux.com') || project.videoUrl.includes('photos.google.com') ? (
-                        <iframe 
-                          src={project.videoUrl.includes('player.mux.com') ? `${project.videoUrl}?autoplay=1&muted=1&loop=1&controls=0` : project.videoUrl} 
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 pointer-events-none"
-                          allow="autoplay; fullscreen"
-                          style={{ border: 'none' }}
-                        />
-                      ) : (
-                        <video 
-                          src={project.videoUrl} 
-                          autoPlay 
-                          muted 
-                          loop 
-                          playsInline
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        />
-                      )
-                    ) : project.imageUrl ? (
-                      <img 
-                        src={project.imageUrl} 
-                        alt={project.name}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        referrerPolicy="no-referrer"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-slate-600">
-                        <Monitor size={48} opacity={0.2} />
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                       {(project.videoUrl || project.douyinUrl) ? (
-                         <div className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white">
-                           <Play size={20} fill="currentColor" className="ml-1" />
-                         </div>
-                       ) : (
-                         <div className="w-12 h-12 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white">
-                           <Search size={20} />
-                         </div>
-                       )}
-                       <span className="absolute bottom-4 left-4 text-white text-xs font-bold flex items-center gap-1">
-                          <Zap size={12} fill="currentColor" /> {lang === 'zh' ? '经典案例' : 'Classic Case'}
-                       </span>
-                    </div>
-                  </div>
-                  
-                  <div className="p-5">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className={`p-1.5 rounded-lg ${project.category === 'bar' ? 'bg-indigo-500/20 text-indigo-400' : 'bg-pink-500/20 text-pink-400'}`}>
-                        {project.category === 'bar' ? <Music size={14} /> : <BarChart3 size={14} />}
-                      </div>
-                      <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-slate-300 bg-white/10 px-2 py-0.5 rounded">
-                        {project.category === 'bar' ? 'Bar & Club' : 'KTV Room'}
-                      </span>
-                    </div>
-                    <h3 className="font-bold text-white group-hover:text-primary transition-colors leading-tight mb-4 min-h-[2.5rem] text-sm sm:text-base">
-                      {project.name}
-                    </h3>
-                    <div className="flex items-center justify-between">
-                      {project.region && (
-                        <div className="flex items-center gap-1 text-xs text-slate-400 font-medium">
-                          <MapPin size={10} /> {project.region}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
-
-          {filteredProjects.length === 0 && (
-            <div className="py-20 text-center text-slate-400">
-              No projects found matching your search.
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Projects Wall / About Section */}
-      <section id="about" className="py-24 bg-black/60 backdrop-blur-sm relative z-0 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6">
+      {/* History Section */}
+      <section id="history" className="py-24 relative z-0 overflow-hidden bg-slate-950">
+        <div className="absolute inset-0 bg-blue-900/5 mix-blend-color-burn pointer-events-none" />
+        <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-primary font-black uppercase tracking-widest text-sm mb-4 block">Proven Experience</span>
+            <span className="text-primary font-black uppercase tracking-widest text-sm mb-4 block">Our Journey</span>
             <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-white">
-              {lang === 'zh' ? '全案工程案例一览' : 'Complete Project Portfolio'}
+              {lang === 'zh' ? '广州市视励安电子产品有限公司 发展史' : 'Development History'}
             </h2>
             <div className="w-24 h-1.5 bg-primary mx-auto rounded-full mb-8" />
-            <p className="text-lg text-slate-400 max-w-3xl mx-auto">
-              {lang === 'zh' 
-                ? '多年深耕娱乐行业，我们已在全国乃至东南亚落地上万个顶尖工程项目。' 
-                : 'With years of expertise in the entertainment industry, we have successfully delivered tens of thousands of top-tier projects worldwide.'}
-            </p>
           </div>
 
-          <div className="relative group">
-            <div className="columns-2 sm:columns-3 md:columns-4 lg:columns-5 gap-4 space-y-3 opacity-90 group-hover:opacity-100 transition-opacity">
-              {projects.map((project, idx) => (
-                <motion.div
-                  key={project.id}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.005, duration: 0.3 }}
-                  viewport={{ once: true }}
-                  className="break-inside-avoid flex items-center gap-2 px-3 py-2 bg-white/5 rounded-lg border border-white/10 text-[11px] md:text-xs font-bold text-slate-300 shadow-xs hover:border-primary/50 hover:text-primary hover:shadow-lg hover:shadow-primary/5 transition-all cursor-default"
-                >
-                  <div className="w-1 h-1 bg-primary/40 rounded-full" />
-                  <span className="truncate">{project.name}</span>
-                </motion.div>
-              ))}
-            </div>
-            {/* Visual indicators for wall richness */}
-            <div className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-slate-950 to-transparent z-10 pointer-events-none" />
-            <div className="absolute bottom-0 inset-x-0 h-20 bg-gradient-to-t from-slate-950 to-transparent z-10 pointer-events-none" />
+          <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-white/20 before:to-transparent">
+            {[
+              { year: '2016', title: lang === 'zh' ? '公司成立' : 'Foundation', desc: lang === 'zh' ? '广州市视励安电子产品有限公司正式成立，立足珠三角，开启光电产品及技术探索之路。' : 'Guangzhou Shilian Electronic Products Co., Ltd. was established, focusing on optoelectronic technology.' },
+              { year: '2017', title: lang === 'zh' ? '初露锋芒' : 'Emerging Force', desc: lang === 'zh' ? '开始拓展娱乐夜店显示市场，打造首个标杆级夜店LED视觉项目。' : 'Began expanding into the entertainment nightclub display market, creating the first benchmark nightclub LED visual project.' },
+              { year: '2018', title: lang === 'zh' ? '核心突破与沉淀' : 'Industry Breakthroughs', desc: lang === 'zh' ? '研发并推出初代高刷LED显示屏系列，成功应用于多个知名酒吧及大型演艺中心。' : 'Launched the first generation of high-refresh LED displays, successfully applied in well-known bars and performance centers.' },
+              { year: '2019', title: lang === 'zh' ? '产品矩阵丰富' : 'Product Diversification', desc: lang === 'zh' ? '推出透明屏及定制化异形屏产品，极大丰富酒吧视觉设计元素。' : 'Launched transparent and customized irregular screens, greatly enriching bar visual design elements.' },
+              { year: '2020', title: lang === 'zh' ? '深耕特定领域' : 'Deepening Niche Markets', desc: lang === 'zh' ? '针对市场环境变化优化供应链，针对KTV与特定派对空间推出专属高性价比方案。' : 'Optimized the supply chain and launched exclusive cost-effective solutions for KTVs and specific party spaces.' },
+              { year: '2021', title: lang === 'zh' ? '全国业务扩展' : 'National Expansion', desc: lang === 'zh' ? '服务网络全面升级，业务逐步拓展至全国50多个城市，覆盖数百家优质娱乐品牌。' : 'Upgraded service network, expanding business to over 50 cities nationwide and covering hundreds of premium entertainment brands.' },
+              { year: '2022', title: lang === 'zh' ? '确立领先地位' : 'Establishing Leadership', desc: lang === 'zh' ? '与多家国内顶尖夜店品牌达成深度战略合作，确立在娱乐显示领域的领先地位。' : 'Reached deep strategic partnerships with several top domestic nightclub brands, establishing a leading position.' },
+              { year: '2023', title: lang === 'zh' ? '软硬一体化' : 'Hardware-Software Integration', desc: lang === 'zh' ? '引入智能播控系统与专业团队，为客户提供从硬件到软件的整体视觉解决方案。' : 'Introduced intelligent control systems, providing customers with comprehensive hardware and software visual solutions.' },
+              { year: '2024', title: lang === 'zh' ? '战略新纪元' : 'New Era Strategy', desc: lang === 'zh' ? '全面实施“视觉艺术+显示硬件”双驱动发展战略，成功将业务推向东南亚等国际舞台。' : 'Implemented the "Visual Art + Display Hardware" dual-drive strategy, stepping onto the international stage.' },
+              { year: '2025', title: lang === 'zh' ? '全球化视野' : 'Global Vision', desc: lang === 'zh' ? '深化海外市场布局，参与多场国际专业展会，品牌国际影响力进一步提升。' : 'Deepened overseas market layout and participated in international exhibitions, enhancing global brand influence.' },
+              { year: '2026', title: lang === 'zh' ? '十周年跨越' : '10th Anniversary Leap', desc: lang === 'zh' ? '步入十周年里程碑，发布全新一代沉浸式视觉交互体验方案，持续引领行业创新。' : 'Entering the 10th anniversary, released a new generation of immersive visual interactive experience solutions.' }
+            ].map((item, idx) => (
+              <motion.div 
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                viewport={{ once: true }}
+                className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active"
+              >
+                <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-950 bg-primary text-white shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-xl shadow-primary/20 absolute left-0 md:left-1/2 -ml-5 md:ml-0 z-10">
+                  <div className="w-3 h-3 bg-white rounded-full"></div>
+                </div>
+                <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] ml-14 md:ml-0 p-6 rounded-2xl bg-slate-900 border border-white/10 shadow-lg hover:border-primary/50 transition-colors z-20">
+                  <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-2">
+                    <h3 className="text-xl font-bold text-white mb-1 md:mb-0">{item.title}</h3>
+                    <span className="font-black text-2xl text-primary/80">{item.year}</span>
+                  </div>
+                  <p className="text-slate-400 text-sm leading-relaxed">{item.desc}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
-
         </div>
       </section>
 
@@ -457,88 +283,6 @@ export default function App() {
           </div>
         </div>
       </footer>
-
-      {/* Project Modal */}
-      <AnimatePresence>
-        {selectedProject && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm"
-            onClick={() => setSelectedProject(null)}
-          >
-            <button 
-              className="absolute top-6 right-6 p-2 bg-white/10 rounded-full text-white hover:bg-white/20 transition-colors"
-              onClick={() => setSelectedProject(null)}
-            >
-              <X size={24} />
-            </button>
-            <motion.div 
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="relative w-full max-w-5xl max-h-[85vh] rounded-2xl overflow-hidden bg-slate-900 border border-white/10"
-              onClick={e => e.stopPropagation()}
-            >
-              <div className="w-full h-full pb-[56.25%] relative bg-black">
-                {selectedProject.videoUrl ? (
-                  selectedProject.videoUrl.includes('player.mux.com') || selectedProject.videoUrl.includes('photos.google.com') ? (
-                    <iframe 
-                      src={selectedProject.videoUrl.includes('player.mux.com') ? `${selectedProject.videoUrl}?autoplay=1` : selectedProject.videoUrl} 
-                      className="absolute inset-0 w-full h-full"
-                      allow="autoplay; fullscreen"
-                      style={{ border: 'none' }}
-                    />
-                  ) : (
-                    <video 
-                      src={selectedProject.videoUrl} 
-                      autoPlay 
-                      controls
-                      className="absolute inset-0 w-full h-full object-contain"
-                    />
-                  )
-                ) : selectedProject.douyinUrl ? (
-                  <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-black/80 text-white rounded-2xl">
-                     <div className="mb-4 text-center px-4">
-                       <Play size={48} className="mx-auto mb-4 opacity-50 text-white" />
-                       <h3 className="text-xl font-bold mb-2">{lang === 'zh' ? '在抖音中打开' : 'Open in Douyin'}</h3>
-                       <p className="text-slate-400 mb-6">{lang === 'zh' ? '该视频为抖音视频，点击下方按钮在新窗口中观看。' : 'This video is hosted on Douyin. Click the button below to watch it in a new window.'}</p>
-                       <a href={selectedProject.douyinUrl} target="_blank" rel="noopener noreferrer" className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-full font-bold transition-colors inline-flex items-center gap-2">
-                          <Play size={18} fill="currentColor" /> {lang === 'zh' ? '去观看' : 'Watch Now'}
-                       </a>
-                     </div>
-                  </div>
-                ) : selectedProject.imageUrl ? (
-                  <img 
-                    src={selectedProject.imageUrl} 
-                    alt={selectedProject.name}
-                    className="absolute inset-0 w-full h-full object-contain"
-                    referrerPolicy="no-referrer"
-                  />
-                ) : (
-                  <div className="absolute inset-0 flex items-center justify-center text-slate-600">
-                    <Monitor size={64} opacity={0.2} />
-                  </div>
-                )}
-              </div>
-              <div className="p-6 bg-slate-950">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="text-xs font-black uppercase tracking-widest text-primary bg-primary/10 px-2 py-1 rounded">
-                    {selectedProject.category === 'bar' ? 'Bar & Club' : 'KTV Room'}
-                  </span>
-                  <span className="text-slate-400 text-sm flex items-center gap-1">
-                    <MapPin size={14} /> {selectedProject.province} {selectedProject.region}
-                  </span>
-                </div>
-                <h3 className="text-2xl font-bold text-white">
-                  {selectedProject.name}
-                </h3>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
