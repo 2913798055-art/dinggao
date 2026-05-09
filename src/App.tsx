@@ -108,7 +108,7 @@ export default function App() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-x-0 bg-slate-900 border-b border-white/10 z-40 shadow-xl p-6 flex flex-col gap-4 md:hidden"
+            className="fixed inset-x-0 top-[64px] sm:top-[76px] bg-slate-900 border-b border-white/10 z-40 shadow-xl p-6 flex flex-col gap-4 md:hidden"
           >
             <a href="#" onClick={() => setIsMenuOpen(false)} className="text-lg font-medium">{t.navHome}</a>
             <a href="#projects" onClick={() => setIsMenuOpen(false)} className="text-lg font-medium">{t.navProjects}</a>
@@ -160,7 +160,7 @@ export default function App() {
             {[
               { icon: <Zap className="text-amber-500" />, count: "10000+", label: lang === 'zh' ? '交付项目' : 'Projects' },
               { icon: <MapPin className="text-red-500" />, count: "800+", label: lang === 'zh' ? '覆盖城市' : 'Cities' },
-              { icon: <Users className="text-blue-500" />, count: lang === 'zh' ? "核心团队" : "Experts", label: lang === 'zh' ? '专业团队' : 'Service Team' }
+              { icon: <Users className="text-blue-500" />, count: lang === 'zh' ? "专业团队" : "Professionals", label: lang === 'zh' ? '服务保障' : 'Service Support' }
             ].map((stat, i) => (
               <div key={i} className={`tech-card p-6 sm:p-10 text-center ${i === 2 ? 'sm:col-span-2 md:col-span-1' : ''}`}>
                 <div className="inline-flex p-3 bg-white/5 rounded-xl mb-4">{stat.icon}</div>
@@ -193,7 +193,7 @@ export default function App() {
               { year: '2018', title: lang === 'zh' ? '核心突破与沉淀' : 'Industry Breakthroughs', desc: lang === 'zh' ? '研发并推出初代高刷LED显示屏系列，成功应用于多个知名酒吧及大型演艺中心。' : 'Launched the first generation of high-refresh LED displays, successfully applied in well-known bars and performance centers.' },
               { year: '2019', title: lang === 'zh' ? '产品矩阵丰富' : 'Product Diversification', desc: lang === 'zh' ? '推出透明屏及定制化异形屏产品，极大丰富酒吧视觉设计元素。' : 'Launched transparent and customized irregular screens, greatly enriching bar visual design elements.' },
               { year: '2020', title: lang === 'zh' ? '深耕特定领域' : 'Deepening Niche Markets', desc: lang === 'zh' ? '针对市场环境变化优化供应链，针对KTV与特定派对空间推出专属高性价比方案。' : 'Optimized the supply chain and launched exclusive cost-effective solutions for KTVs and specific party spaces.' },
-              { year: '2021', title: lang === 'zh' ? '全国业务扩展' : 'National Expansion', desc: lang === 'zh' ? '服务网络全面升级，业务逐步拓展至全国50多个城市，覆盖数百家优质娱乐品牌。' : 'Upgraded service network, expanding business to over 50 cities nationwide and covering hundreds of premium entertainment brands.' },
+              { year: '2021', title: lang === 'zh' ? '全国业务扩展' : 'National Expansion', desc: lang === 'zh' ? '服务网络全面升级，业务逐步拓展至全国80多个城市，覆盖数百家优质娱乐品牌。' : 'Upgraded service network, expanding business to over 80 cities nationwide and covering hundreds of premium entertainment brands.' },
               { year: '2022', title: lang === 'zh' ? '确立领先地位' : 'Establishing Leadership', desc: lang === 'zh' ? '与多家国内顶尖夜店品牌达成深度战略合作，确立在娱乐显示领域的领先地位。' : 'Reached deep strategic partnerships with several top domestic nightclub brands, establishing a leading position.' },
               { year: '2023', title: lang === 'zh' ? '软硬一体化' : 'Hardware-Software Integration', desc: lang === 'zh' ? '引入智能播控系统与专业团队，为客户提供从硬件到软件的整体视觉解决方案。' : 'Introduced intelligent control systems, providing customers with comprehensive hardware and software visual solutions.' },
               { year: '2024', title: lang === 'zh' ? '战略新纪元' : 'New Era Strategy', desc: lang === 'zh' ? '全面实施“视觉艺术+显示硬件”双驱动发展战略，成功将业务推向东南亚等国际舞台。' : 'Implemented the "Visual Art + Display Hardware" dual-drive strategy, stepping onto the international stage.' },
@@ -208,7 +208,7 @@ export default function App() {
                 viewport={{ once: true }}
                 className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active"
               >
-                <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-950 bg-primary text-white shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-xl shadow-primary/20 absolute left-0 md:left-1/2 -ml-5 md:ml-0 z-10">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-950 bg-primary text-white shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-xl shadow-primary/20 absolute left-0 md:left-1/2 z-10 mx-0">
                   <div className="w-3 h-3 bg-white rounded-full"></div>
                 </div>
                 <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] ml-14 md:ml-0 p-6 rounded-2xl bg-slate-900 border border-white/10 shadow-lg hover:border-primary/50 transition-colors z-20">

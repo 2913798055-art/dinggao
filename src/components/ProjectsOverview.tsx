@@ -95,7 +95,7 @@ export function ProjectsOverview() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -15 }}
                   transition={{ duration: 0.4, ease: "easeOut" }}
-                  className="bg-white/[0.02] border border-white/[0.08] rounded-[2rem] p-8 md:p-12 backdrop-blur-xl relative overflow-hidden shadow-2xl"
+                  className="bg-white/[0.02] border border-white/[0.08] rounded-[2rem] p-6 lg:p-12 backdrop-blur-xl relative overflow-hidden shadow-2xl"
                 >
                   {/* Internal Glow for Glassmorphism */}
                   <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-[80px] pointer-events-none" />
@@ -140,10 +140,10 @@ export function ProjectsOverview() {
 
         <div className="mt-20 text-center">
             <div className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-white/5 border border-white/10 text-slate-400 text-sm shadow-[0_0_20px_rgba(0,0,0,0.5)]">
-              <span className="relative flex h-2 w-2 mr-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-              </span>
+                <span className="relative flex h-2 w-2 mr-3">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-primary/40 animate-pulse"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                </span>
               更多项目持续接洽与交付中...
             </div>
         </div>

@@ -21,24 +21,24 @@ export const BackgroundAnimation: React.FC = () => {
           <motion.div
             key={p.id}
             className="absolute rounded-full blur-[80px]"
+            animate={{
+              x: [0, Math.random() * 50 - 25, Math.random() * 50 - 25, 0],
+              y: [0, Math.random() * 50 - 25, Math.random() * 50 - 25, 0],
+            }}
+            transition={{
+              duration: p.duration,
+              repeat: Infinity,
+              ease: "linear",
+              delay: p.delay,
+            }}
             style={{
               width: p.size,
               height: p.size,
               backgroundColor: p.color,
               left: `${p.x}%`,
               top: `${p.y}%`,
-            }}
-            animate={{
-              x: [0, Math.random() * 100 - 50, Math.random() * 100 - 50, 0],
-              y: [0, Math.random() * 100 - 50, Math.random() * 100 - 50, 0],
-              scale: [1, 1.2, 0.8, 1],
-              opacity: [0.3, 0.6, 0.3],
-            }}
-            transition={{
-              duration: p.duration,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: p.delay,
+              opacity: 0.15,
+              willChange: 'transform'
             }}
           />
         ))}
