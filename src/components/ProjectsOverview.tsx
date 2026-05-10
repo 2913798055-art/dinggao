@@ -11,7 +11,7 @@ export function ProjectsOverview() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-slate-950 to-[#020617] pointer-events-none" />
       
       {/* Decorative dot matrix */}
-      <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px)', backgroundSize: '32px 32px' }} pointer-events-none />
+      <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
 
       <div className="max-w-[85rem] mx-auto px-6 relative z-10">
         <div className="text-center mb-16 md:mb-24">
